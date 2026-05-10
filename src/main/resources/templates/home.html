@@ -4,29 +4,191 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart API Test Automation Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg:        #fdf6ec;
+            --surface:   #fef9f4;
+            --card:      #ffffff;
+            --border:    #e8d5b7;
+            --amber:     #d97706;
+            --amber-bg:  #fef3c7;
+            --amber-dim: #b45309;
+            --cyan:      #0e7490;
+            --text:      #1c2333;
+            --muted:     #6b7a99;
+            --success:   #15803d;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+        }
+
+        .wrapper { width: 100%; max-width: 680px; }
+
+        .header { margin-bottom: 36px; }
+
+        .badge {
+            display: inline-block;
+            background: var(--amber-bg);
+            color: var(--amber);
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 20px;
+            border: 1px solid #fde68a;
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.4rem;
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--text);
+            margin-bottom: 12px;
+        }
+
+        h1 span { color: var(--amber); }
+
+        .subtitle {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        hr {
+            border: none;
+            border-top: 1px solid var(--border);
+            margin: 28px 0;
+        }
+
+        h2 {
+            font-family: 'Syne', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.09em;
+            color: var(--muted);
+            margin-bottom: 16px;
+        }
+
+        ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+
+        ul li {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: var(--text);
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 13px 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+
+        ul li:hover {
+            border-color: var(--amber);
+            transform: translateX(4px);
+            box-shadow: 0 3px 10px rgba(217,119,6,0.1);
+        }
+
+        ul li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--amber);
+            flex-shrink: 0;
+        }
+
+        .cta-group { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px 22px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: var(--amber);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(217,119,6,0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--amber-dim);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(217,119,6,0.3);
+        }
+
+        .btn-secondary {
+            background: var(--card);
+            color: var(--text);
+            border: 1px solid var(--border);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--cyan);
+            color: var(--cyan);
+            transform: translateY(-2px);
+        }
+
+        .btn-arrow { font-size: 1.1rem; }
+    </style>
 </head>
 <body>
-    <h1> Smart API Test Automation Platform</h1>
-
-    <p>
-        Build, run and trace API test cases from one Java Spring Boot platform.
-    </p>
+<div class="wrapper">
+    <div class="header">
+        <div class="badge">⚡ Automation Platform</div>
+        <h1>Smart API Test<br><span>Automation</span> Platform</h1>
+        <p class="subtitle">Build, run and trace API test cases from one Java Spring Boot platform.</p>
+    </div>
 
     <hr>
 
-    <h2> Project Features</h2>
+    <h2>Project Features</h2>
     <ul>
-        <li> Create API test cases</li>
+        <li>Create API test cases</li>
         <li>Run test cases manually</li>
         <li>Validate expected and actual response</li>
-        <li>Store execution history </li>
+        <li>Store execution history</li>
         <li>View pass/fail dashboard</li>
     </ul>
 
     <hr>
-    <hr>
-<a href="/test-cases">Manage API Test Cases</a>
-<br><br>
-<a href="/dashboard">View Execution Dashboard</a>
+
+    <div class="cta-group">
+        <a href="/test-cases" class="btn btn-primary">
+            <span>Manage API Test Cases</span>
+            <span class="btn-arrow">→</span>
+        </a>
+        <a href="/dashboard" class="btn btn-secondary">
+            <span>View Execution Dashboard</span>
+            <span class="btn-arrow">→</span>
+        </a>
+    </div>
+</div>
 </body>
 </html>
