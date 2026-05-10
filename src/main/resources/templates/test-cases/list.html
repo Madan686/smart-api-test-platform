@@ -21,6 +21,7 @@
         <th>Expected Status</th>
         <th>Expected Keyword</th>
         <th>Created At</th>
+        <th>Run Test</th>
     </tr>
     </thead>
 
@@ -33,6 +34,11 @@
         <td th:text="${testCase.expectedStatusCode}"></td>
         <td th:text="${testCase.expectedResponseKeyword}"></td>
         <td th:text="${testCase.createdAt}"></td>
+        <td>
+            <form th:action="@{'/test-cases/run/' + ${testCase.id}}" method="post">
+                <button type="submit"> Run</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

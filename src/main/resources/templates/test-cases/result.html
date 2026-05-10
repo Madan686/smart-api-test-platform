@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Execution Result</title>
+</head>
+<body>
+
+<h1>Test Execution Result</h1>
+
+<p>
+    <strong>Test Case:</strong>
+    <span th:text="${result.testCaseName}"></span>
+</p>
+
+<p>
+    <strong>Request URL:</strong>
+    <span th:text="${result.requestUrl}"></span>
+</p>
+
+<p>
+    <strong>Expected Status:</strong>
+    <span th:text="${result.expectedStatusCode}"></span>
+</p>
+
+<p>
+    <strong>Actual Status:</strong>
+    <span th:text="${result.actualStatusCode}"></span>
+</p>
+
+<p>
+    <strong>Execution Status:</strong>
+    <span th:text="${result.executionStatus}"></span>
+</p>
+
+<h3>Response Body</h3>
+
+<pre th:text="${result.responseBody}"></pre>
+
+<h3>Error Message</h3>
+
+<pre th:text="${result.errorMessage}"></pre>
+
+<br>
+
+<a href="/test-cases">Back to Test Cases</a>
+
+</body>
+</html>
