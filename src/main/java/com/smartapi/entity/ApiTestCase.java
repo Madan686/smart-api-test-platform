@@ -14,7 +14,7 @@ public class ApiTestCase {
     private String url;
 
     @Column(columnDefinition = "TEXT")
-    private String header;
+    private String headers;
 
     @Column(columnDefinition="TEXT")
     private String requestBody;
@@ -57,12 +57,12 @@ public class ApiTestCase {
         this.url=url;
     }
 
-    public String getHeader(){
-        return header;
+    public String getHeaders(){
+        return headers;
     }
     
-    public void setHeader(String header){
-        this.header=header;
+    public void setHeaders(String headers){
+        this.headers=headers;
     }
 
     public String getRequestBody(){
@@ -73,11 +73,11 @@ public class ApiTestCase {
         this.requestBody=requestBody;
     }
 
-    public Integer getExpectedstatusCode(){
+    public Integer getExpectedStatusCode(){
         return expectedStatusCode;
     }
 
-    public void setExppectedStatusCode(Integer expectedStatusCode){
+    public void setExpectedStatusCode(Integer expectedStatusCode){
         this.expectedStatusCode=expectedStatusCode;
     }
 

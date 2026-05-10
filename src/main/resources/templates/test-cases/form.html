@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create API Test Case</title>
+</head>
+<body>
+
+<h1>Create API Test Case</h1>
+
+<form th:action="@{/test-cases}" th:object="${apiTestCase}" method="post">
+
+    <label>Test Name:</label><br>
+    <input type="text" th:field="*{name}" required><br><br>
+
+    <label>HTTP Method:</label><br>
+    <select th:field="*{method}" required>
+        <option value="">Select Method</option>
+        <option value="GET">GET</option>
+        <option value="POST">POST</option>
+        <option value="PUT">PUT</option>
+        <option value="DELETE">DELETE</option>
+    </select><br><br>
+
+    <label>API URL:</label><br>
+    <input type="text" th:field="*{url}" required><br><br>
+
+    <label>Headers:</label><br>
+    <textarea th:field="*{headers}" rows="4" cols="60"
+              placeholder='{"Content-Type":"application/json"}'></textarea><br><br>
+
+    <label>Request Body:</label><br>
+    <textarea th:field="*{requestBody}" rows="6" cols="60"
+              placeholder='{"email":"test@example.com","password":"123456"}'></textarea><br><br>
+
+    <label>Expected Status Code:</label><br>
+    <input type="number" th:field="*{expectedStatusCode}" required><br><br>
+
+    <label>Expected Response Keyword:</label><br>
+    <input type="text" th:field="*{expectedResponseKeyword}"><br><br>
+
+    <button type="submit">Save Test Case</button>
+</form>
+
+<br>
+<a href="/test-cases">Back to Test Cases</a>
+
+</body>
+</html>

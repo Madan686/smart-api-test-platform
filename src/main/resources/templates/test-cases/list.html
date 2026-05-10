@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>API Test Cases</title>
+</head>
+<body>
+
+<h1>API Test Cases</h1>
+
+<a href="/test-cases/new">Create New Test Case</a>
+<br><br>
+
+<table border="1" cellpadding="8">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Method</th>
+        <th>URL</th>
+        <th>Expected Status</th>
+        <th>Expected Keyword</th>
+        <th>Created At</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    <tr th:each="testCase : ${testCases}">
+        <td th:text="${testCase.id}"></td>
+        <td th:text="${testCase.name}"></td>
+        <td th:text="${testCase.method}"></td>
+        <td th:text="${testCase.url}"></td>
+        <td th:text="${testCase.expectedStatusCode}"></td>
+        <td th:text="${testCase.expectedResponseKeyword}"></td>
+        <td th:text="${testCase.createdAt}"></td>
+    </tr>
+    </tbody>
+</table>
+
+<br>
+<a href="/">Home</a>
+
+</body>
+</html>
