@@ -5,6 +5,14 @@ import com.smartapi.repository.TestExecutionResultRepository;
 import com.smartapi.repository.ApiTestCaseRepository; 
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.HttpHeaders;
+import org.springframework.web.reactive.function.client.ClientResponse;
+
+import java.util.Map;
+
+
 
 @Service
 public class TestExecutionService {
@@ -12,6 +20,7 @@ public class TestExecutionService {
     private final ApiTestCaseRepository apiTestCaseRepository;
 
     private final TestExecutionResultRepository testExecutionResultRepository;
+    private final ObjectMapper objectMapper;
 
     private final WebClient webClient;
 
@@ -22,6 +31,7 @@ public class TestExecutionService {
         this.apiTestCaseRepository=apiTestCaseRepository;
         this.testExecutionResultRepository=testExecutionResultRepository;
         this.webClient=WebClient.create();
+        this.objectMapper=new ObjectMapper();
     }
 
     public TestExecutionResult runTest(Long testCaseId){
@@ -33,39 +43,78 @@ public class TestExecutionService {
         result.setRequestUrl(testCase.getUrl());
         result.setExpectedStatusCode(testCase.getExpectedStatusCode());
 
-        try{
+        try {
 
-            String responseBody =webClient
-                            .method(org.springframework.http.HttpMethod.valueOf(testCase.getMethod()))
-                            .uri(testCase.getUrl())
-                            .retrieve()
-                            .bodyToMono(String.class)
-                            .block();
+    WebClient.RequestBodySpec requestSpec = webClient
+            .method(org.springframework.http.HttpMethod.valueOf(testCase.getMethod()))
+            .uri(testCase.getUrl());
 
-            result.setResponseBody(responseBody);
+    if (testCase.getHeaders() != null
+            && !testCase.getHeaders().isBlank()) {
 
-            int actualStatusCode = 200;
-            result.setActualStatusCode(actualStatusCode);
+        Map<String, String> headersMap =
+                objectMapper.readValue(
+                        testCase.getHeaders(),
+                        new TypeReference<Map<String, String>>() {}
+                );
 
-            boolean statusMatches= actualStatusCode == testCase.getExpectedStatusCode();
+        headersMap.forEach(requestSpec::header);
+    }
 
-            boolean keywordMatches = true;
+    WebClient.ResponseSpec responseSpec;
 
-            if(testCase.getExpectedResponseKeyword()!= null && !testCase.getExpectedResponseKeyword().isBlank()){
-                keywordMatches= responseBody.contains(testCase.getExpectedResponseKeyword());
-            }
+    if (testCase.getRequestBody() != null
+            && !testCase.getRequestBody().isBlank()) {
 
-            if(statusMatches && keywordMatches){
-                result.setExecutionStatus("PASS");
-            }else{
-                result.setExecutionStatus("FAIL");
-            }
+        responseSpec = requestSpec
+                .bodyValue(testCase.getRequestBody())
+                .retrieve();
 
-        }catch(Exception ex){
-                result.setExecutionStatus("FAIL");
-                result.setErrorMessage(ex.getMessage());
-            }
-            return testExecutionResultRepository.save(result);
+    } else {
+
+        responseSpec = requestSpec.retrieve();
+    }
+
+    ClientResponse clientResponse = webClient
+            .method(org.springframework.http.HttpMethod.valueOf(testCase.getMethod()))
+            .uri(testCase.getUrl())
+            .exchangeToMono(response -> response.bodyToMono(String.class)
+                    .map(body -> {
+                        result.setActualStatusCode(response.statusCode().value());
+                        result.setResponseBody(body);
+                        return response;
+                    }))
+            .block();
+
+    String responseBody = result.getResponseBody();
+
+    boolean statusMatches =
+            result.getActualStatusCode()
+                    .equals(testCase.getExpectedStatusCode());
+
+    boolean keywordMatches = true;
+
+    if (testCase.getExpectedResponseKeyword() != null
+            && !testCase.getExpectedResponseKeyword().isBlank()) {
+
+        keywordMatches =
+                responseBody.contains(
+                        testCase.getExpectedResponseKeyword()
+                );
+    }
+
+    if (statusMatches && keywordMatches) {
+        result.setExecutionStatus("PASS");
+    } else {
+        result.setExecutionStatus("FAIL");
+    }
+
+    } catch (Exception ex) {
+
+    result.setExecutionStatus("FAIL");
+    result.setErrorMessage(ex.getMessage());
+    }
+     return testExecutionResultRepository.save(result);
     }
     
 }
