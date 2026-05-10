@@ -1,7 +1,14 @@
 package com.smartapi.repository;
+
 import com.smartapi.entity.TestExecutionResult;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TestExecutionResultRepository extends JpaRepository <TestExecutionResult, Long>{
-    
+import java.util.List;
+
+public interface TestExecutionResultRepository
+        extends JpaRepository<TestExecutionResult, Long> {
+
+    long countByExecutionStatus(String executionStatus);
+
+    List<TestExecutionResult> findTop10ByOrderByExecutedAtDesc();
 }

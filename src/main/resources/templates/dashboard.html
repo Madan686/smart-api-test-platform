@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Execution Dashboard</title>
+
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            margin: 30px;
+        }
+
+        .card-container {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            padding: 20px;
+            width: 220px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        table, th, td {
+            border: 1px solid black;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+    </style>
+
+</head>
+<body>
+
+<h1>Execution Dashboard</h1>
+
+<div class="card-container">
+
+    <div class="card">
+        <h3>Total Test Cases</h3>
+        <p th:text="${totalTestCases}"></p>
+    </div>
+
+    <div class="card">
+        <h3>Total Executions</h3>
+        <p th:text="${totalExecutions}"></p>
+    </div>
+
+    <div class="card">
+        <h3>Passed</h3>
+        <p th:text="${passedExecutions}"></p>
+    </div>
+
+    <div class="card">
+        <h3>Failed</h3>
+        <p th:text="${failedExecutions}"></p>
+    </div>
+
+    <div class="card">
+        <h3>Pass Percentage</h3>
+        <p th:text="${#numbers.formatDecimal(passPercentage, 1, 2)} + '%'"></p>
+    </div>
+
+</div>
+
+<h2>Recent Executions</h2>
+
+<table>
+
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Test Case</th>
+        <th>Status</th>
+        <th>Expected Status</th>
+        <th>Actual Status</th>
+        <th>Executed At</th>
+    </tr>
+    </thead>
+
+    <tbody>
+
+    <tr th:each="execution : ${recentExecutions}">
+
+        <td th:text="${execution.id}"></td>
+
+        <td th:text="${execution.testCaseName}"></td>
+
+        <td th:text="${execution.executionStatus}"></td>
+
+        <td th:text="${execution.expectedStatusCode}"></td>
+
+        <td th:text="${execution.actualStatusCode}"></td>
+
+        <td th:text="${execution.executedAt}"></td>
+
+    </tr>
+
+    </tbody>
+
+</table>
+
+<br>
+
+<a href="/">Home</a>
+
+</body>
+</html>
